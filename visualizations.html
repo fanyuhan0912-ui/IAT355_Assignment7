@@ -4,7 +4,13 @@
   <meta charset="utf-8" />
   <title>EV Charging Visualization – Visualizations</title>
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Vega & Vega-Lite & Vega-Embed -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
+
 <body>
   <nav>
     <div class="container nav-inner">
@@ -53,6 +59,7 @@
 
     <div class="container" style="margin-top: 2.5rem;">
       <div class="viz-grid">
+        
         <!-- vis 1 -->
         <article class="viz-card">
           <header>
@@ -60,7 +67,6 @@
             <span class="viz-tag">Map · Prototype</span>
           </header>
           <div class="viz-placeholder">
-            <!-- change here to be the real graph -->
             Map visualization placeholder (embed iframe / script here)
           </div>
         </article>
@@ -76,15 +82,13 @@
           </div>
         </article>
 
-        <!-- vis 3 -->
+        <!-- vis 3 (HERE IS YOUR REAL CHART) -->
         <article class="viz-card">
           <header>
             <h2 class="viz-title">Timeline of EV infrastructure growth</h2>
             <span class="viz-tag">Line chart · Prototype</span>
           </header>
-          <div class="viz-placeholder">
-            Timeline / line chart placeholder for Milestone 2.
-          </div>
+          <div id="evDualLineChart" class="viz-placeholder"></div>
         </article>
       </div>
     </div>
@@ -95,5 +99,84 @@
       Final Project – Milestone 2 · Visualizations
     </div>
   </footer>
+
+
+  
+  <script>
+  const dualSpec = {
+    $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+    description:
+      "EV registrations vs public charging stations in BC (dual-axis line chart)",
+
+   
+    data: {
+      url: "ev_data.csv",        
+      format: { type: "csv" }
+    },
+
+    layer: [
+      
+      {
+        mark: {
+          type: "line",
+          point: true       
+        },
+        encoding: {
+          x: {
+            field: "Year",
+            type: "ordinal",
+            title: "Year"
+          },
+          y: {
+            field: "EV_Registrations",
+            type: "quantitative",
+            title: "EV Registrations",
+            axis: {
+              titleColor: "#e67e22", 
+              labelColor: "#e67e22"
+            }
+          },
+          color: { value: "#e67e22" } 
+        }
+      },
+
+      
+      {
+        mark: {
+          type: "line",
+          point: true,
+          strokeDash: [4, 4]   
+        },
+        encoding: {
+          x: {
+            field: "Year",
+            type: "ordinal"
+          },
+          y: {
+            field: "Charging_Stations",
+            type: "quantitative",
+            axis: {
+              title: "Number of Public Charging Stations",
+              orient: "right",      
+              titleColor: "#2980b9", 
+              labelColor: "#2980b9"
+            }
+          },
+          color: { value: "#2980b9" } 
+        }
+      }
+    ],
+
+  
+    resolve: {
+      scale: { y: "independent" }
+    }
+  };
+
+
+  vegaEmbed("#evDualLineChart", dualSpec).catch(console.error);
+</script>
+
+
 </body>
 </html>
