@@ -4,15 +4,21 @@
   <meta charset="utf-8" />
   <title>EV Charging Visualization – Home</title>
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Vega & Vega-Lite & Vega-Embed -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
+
 <body>
   <!-- nav -->
   <nav>
     <div class="container nav-inner">
       <a href="index.html" class="logo">
-    <div class="logo-icon"></div>
-    <span class="logo-text">CRE GROUP</span>
-</a>
+        <div class="logo-icon"></div>
+        <span class="logo-text">CRE GROUP</span>
+      </a>
 
       <ul>
         <li><a href="index.html" class="active">Home</a></li>
@@ -22,17 +28,21 @@
     </div>
   </nav>
 
-  <!-- Hero area -->
+
   <main>
     <section class="hero">
       <div class="container hero-grid">
+     
         <div>
           <h1 class="hero-title">
             Mapping the<br />
             <span class="accent">Electric Vehicle</span> charging landscape
           </h1>
           <p class="hero-subtitle">
-            This project focuses on how expanding public charging infrastructure in major Canadian cities, particularly Vancouver, can accelerate the adoption of electric vehicles (EVs). By visualizing EV registration data and the distribution of charging stations, this project highlights the relationship between infrastructure investment and EV usage growth.
+            This project focuses on how expanding public charging infrastructure in major Canadian cities,
+            particularly Vancouver, can accelerate the adoption of electric vehicles (EVs). By visualizing EV
+            registration data and the distribution of charging stations, this project highlights the relationship
+            between infrastructure investment and EV usage growth.
           </p>
           <div class="hero-buttons">
             <a href="visualizations.html" class="btn btn-primary">View visualizations</a>
@@ -40,23 +50,20 @@
           </div>
         </div>
 
+      
         <div class="hero-visual">
-          <div class="hero-visual-grid">
-            <div class="hero-visual-points">
-              <span class="hero-dot dot1"></span>
-              <span class="hero-dot dot2"></span>
-              <span class="hero-dot dot3"></span>
-              <span class="hero-dot dot4"></span>
-            </div>
+          <div class="hero-visual-frame">
+            <div id="heroDualChart"></div>
           </div>
-          <p style="margin-top: 0.75rem; font-size: 0.8rem; color:#9ca3af;">
-            That is a fake vis, we can add our future vis at here.
+
+          <p class="hero-caption">
+            Prototype view of EV registrations vs public charging stations in BC (2015–2024).
           </p>
         </div>
       </div>
     </section>
 
-    <!-- intro area-->
+  
     <section class="section">
       <div class="container">
         <div class="section-header">
@@ -83,5 +90,82 @@
       Final Project – Milestone 2 · Carolyn Fan, Rawitphoom Kiatthitinan & Ethan Lum · IAT 355
     </div>
   </footer>
+
+ 
+  <script>
+    const heroSpec = {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      description:
+        "EV registrations vs public charging stations in BC (dual-axis line chart, hero version)",
+
+
+      width: 320,
+      height: 220,
+
+      background: "transparent",
+      view: { stroke: null },  
+
+      data: {
+        url: "ev_data.csv",     
+        format: { type: "csv" }
+      },
+
+      layer: [
+    
+        {
+          mark: { type: "line", point: true },
+          encoding: {
+            x: {
+              field: "Year",
+              type: "ordinal",
+              title: "Year",
+              axis: {
+                labelAngle: 0,
+                labelColor: "#ffffff",   
+                titleColor: "#e5e7eb"
+              }
+            },
+            y: {
+              field: "EV_Registrations",
+              type: "quantitative",
+              title: "EV Registrations",
+              axis: {
+                titleColor: "#22c55e",
+                labelColor: "#22c55e"
+              }
+            },
+            color: { value: "#22c55e" }
+          }
+        },
+
+     
+        {
+          mark: { type: "line", point: true, strokeDash: [4, 4] },
+          encoding: {
+            x: {
+              field: "Year",
+              type: "ordinal"
+       
+            },
+            y: {
+              field: "Charging_Stations",
+              type: "quantitative",
+              axis: {
+                title: "Number of Public Charging Stations",
+                orient: "right",
+                titleColor: "#38bdf8",
+                labelColor: "#38bdf8"
+              }
+            },
+            color: { value: "#38bdf8" }
+          }
+        }
+      ],
+
+      resolve: { scale: { y: "independent" } }
+    };
+
+    vegaEmbed("#heroDualChart", heroSpec, { actions: false }).catch(console.error);
+  </script>
 </body>
 </html>

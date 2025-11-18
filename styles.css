@@ -1,4 +1,4 @@
-/* all control*/
+/* all control */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -20,7 +20,7 @@ body {
   padding: 0 1.5rem;
 }
 
-/* nav*/
+/* nav */
 nav {
   position: sticky;
   top: 0;
@@ -41,6 +41,8 @@ nav {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  text-decoration: none;
+  color: inherit;
 }
 
 .logo-icon {
@@ -102,14 +104,13 @@ nav a.active::after {
 
 /* hero area */
 .hero {
-  min-height: 100vh;  
-  display: flex;      
-  align-items: center; 
-  padding: 4rem 0;     
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 4rem 0;
   position: relative;
   overflow: hidden;
 }
-
 
 .hero::before {
   content: "";
@@ -204,7 +205,7 @@ nav a.active::after {
   color: #e0fff9;
 }
 
-/* hero fake visulization(no meaning just for funcy) */
+/* hero visualization card */
 .hero-visual {
   position: relative;
   padding: 2.2rem;
@@ -214,7 +215,27 @@ nav a.active::after {
   box-shadow:
     0 0 28px rgba(34, 197, 94, 0.35),
     0 0 60px rgba(15, 23, 42, 0.9);
+  overflow: hidden; 
 }
+
+
+.hero-visual-frame {
+  max-width: 420px;
+  margin: 16px auto 0 auto;
+  padding: 16px 32px 12px 24px;  
+}
+
+
+#heroDualChart {
+  width: 100%;
+}
+
+.hero-caption {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
 
 .hero-visual-grid {
   width: 100%;
@@ -251,13 +272,13 @@ nav a.active::after {
     0 0 22px rgba(16, 185, 129, 1);
 }
 
-/* hero dot(nomean)*/
+/* hero dot (no meaning) */
 .hero-dot.dot1 { left: 16%; bottom: 18%; }
 .hero-dot.dot2 { left: 36%; bottom: 36%; }
 .hero-dot.dot3 { left: 58%; bottom: 26%; }
 .hero-dot.dot4 { left: 78%; bottom: 52%; }
 
-/* section*/
+/* section */
 .section {
   padding: 3.5rem 0;
 }
@@ -283,7 +304,7 @@ nav a.active::after {
   color: #4ade80;
 }
 
-/* visualiaztion */
+
 .viz-layout {
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
@@ -296,7 +317,6 @@ nav a.active::after {
   flex-direction: column;
   gap: 1.6rem;
 }
-
 
 .viz-card {
   border-radius: 18px;
@@ -348,7 +368,7 @@ nav a.active::after {
   margin-top: 0.9rem;
 }
 
-/* page foot*/
+/* page foot */
 footer {
   padding: 2rem 0 2.5rem;
   border-top: 1px solid rgba(31, 41, 55, 0.9);
@@ -357,7 +377,7 @@ footer {
   font-size: 0.8rem;
 }
 
-/*reaction */
+/* reaction */
 @media (max-width: 900px) {
   .hero-grid,
   .viz-layout {
