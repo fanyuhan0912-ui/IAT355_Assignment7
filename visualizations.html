@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <title>EV Charging Visualization – Visualizations</title>
@@ -59,7 +60,7 @@
 
     <div class="container" style="margin-top: 2.5rem;">
       <div class="viz-grid">
-        
+
         <!-- vis 1 -->
         <article class="viz-card">
           <header>
@@ -77,9 +78,8 @@
             <h2 class="viz-title">Charging stations by city</h2>
             <span class="viz-tag">Bar chart · Prototype</span>
           </header>
-          <div class="viz-placeholder">
-            Bar chart placeholder – you can mount your D3 / Vega-Lite chart here.
-          </div>
+          <!-- Vega-Lite will render the bar chart into this div -->
+          <div id="cityBarChart" class="viz-placeholder"></div>
         </article>
 
         <!-- vis 3 (HERE IS YOUR REAL CHART) -->
@@ -88,7 +88,7 @@
             <h2 class="viz-title">Timeline of EV infrastructure growth</h2>
             <span class="viz-tag">Line chart · Prototype</span>
           </header>
-         <div id="evDualLineChart" style="margin: 30px auto;;"></div>
+          <div id="evDualLineChart" style="margin: 30px auto;;"></div>
 
         </article>
       </div>
@@ -102,75 +102,185 @@
   </footer>
 
 
-  
+
   <script>
-  const dualSpec = {
-  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+    const dualSpec = {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
 
-  width: 650,
-  height: 420,
+      width: 650,
+      height: 420,
 
-  data: {
-    url: "ev_data.csv",
-    format: { type: "csv" }
-  },
+      data: {
+        url: "ev_data.csv",
+        format: { type: "csv" }
+      },
 
-  layer: [
-    // EV Registrations (Left Axis)
-    {
-      mark: { type: "line", point: true },
+      layer: [
+        // EV Registrations (Left Axis)
+        {
+          mark: { type: "line", point: true },
+          encoding: {
+            x: {
+              field: "Year",
+              type: "ordinal",
+              title: "Year",
+              axis: { labelAngle: 0 }   // 横向年份
+            },
+            y: {
+              field: "EV_Registrations",
+              type: "quantitative",
+              title: "EV Registrations",
+              axis: {
+                titleColor: "#e67e22",
+                labelColor: "#e67e22"
+              }
+            },
+            color: { value: "#e67e22" }
+          }
+        },
+
+        // Charging Stations (Right Axis)
+        {
+          mark: { type: "line", point: true, strokeDash: [4, 4] },
+          encoding: {
+            x: {
+              field: "Year",
+              type: "ordinal",
+              axis: { labelAngle: 0 }
+            },
+            y: {
+              field: "Charging_Stations",
+              type: "quantitative",
+              axis: {
+                title: "Number of Public Charging Stations",
+                orient: "right",
+                titleColor: "#2980b9",
+                labelColor: "#2980b9"
+              }
+            },
+            color: { value: "#2980b9" }
+          }
+        }
+      ],
+
+      resolve: { scale: { y: "independent" } }
+    };
+
+
+
+    vegaEmbed("#evDualLineChart", dualSpec).catch(console.error);
+
+    // ============================
+    // NEW: Bar chart – Charging stations by city
+    // ============================
+    // Fake / prototype data: you can adjust the numbers later
+    const cityBarSpec = {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      description: "Bar chart of public charging stations in BC using ev_data.csv.",
+      background: "transparent",
+      width: "container",
+      height: 260,
+
+      data: {
+        url: "ev_data.csv",
+        format: { type: "csv" }
+      },
+
+      mark: {
+        type: "bar",
+        cornerRadiusTopLeft: 10,
+        cornerRadiusTopRight: 10
+      },
+
       encoding: {
         x: {
           field: "Year",
           type: "ordinal",
           title: "Year",
-          axis: { labelAngle: 0 }   // 横向年份
-        },
-        y: {
-          field: "EV_Registrations",
-          type: "quantitative",
-          title: "EV Registrations",
           axis: {
-            titleColor: "#e67e22",
-            labelColor: "#e67e22"
+            labelAngle: 0,
+            labelColor: "#e5f4ff",
+            titleColor: "#9ca3af"
           }
-        },
-        color: { value: "#e67e22" }
-      }
-    },
-
-    // Charging Stations (Right Axis)
-    {
-      mark: { type: "line", point: true, strokeDash: [4, 4] },
-      encoding: {
-        x: {
-          field: "Year",
-          type: "ordinal",
-          axis: { labelAngle: 0 }
         },
         y: {
           field: "Charging_Stations",
           type: "quantitative",
+          title: "Number of Public Charging Stations",
           axis: {
-            title: "Number of Public Charging Stations",
-            orient: "right",
-            titleColor: "#2980b9",
-            labelColor: "#2980b9"
+            labelColor: "#e5f4ff",
+            titleColor: "#9ca3af",
+            gridColor: "rgba(148,163,184,0.25)",
+            tickColor: "rgba(148,163,184,0.4)"
           }
         },
-        color: { value: "#2980b9" }
+        color: {
+          field: "Year",
+          type: "nominal",
+          legend: null,
+          scale: {
+            range: [
+              "#22c55e",
+              "#16a34a",
+              "#22c55e",
+              "#4ade80",
+              "#86efac",
+              "#38bdf8",
+              "#0ea5e9",
+              "#6366f1",
+              "#a855f7",
+              "#f97316"
+            ]
+          }
+        },
+        tooltip: [
+          { field: "Year", type: "ordinal", title: "Year" },
+          {
+            field: "Charging_Stations",
+            type: "quantitative",
+            title: "Charging stations"
+          }
+        ]
+      },
+
+      layer: [
+        // bars themselves
+        {
+          mark: {
+            type: "bar",
+            cornerRadiusTopLeft: 10,
+            cornerRadiusTopRight: 10
+          }
+        },
+
+        // value labels
+        {
+          mark: {
+            type: "text",
+            dy: -6,
+            fontSize: 11,
+            fontWeight: "600",
+            color: "#e5f4ff"
+          },
+          encoding: {
+            text: {
+              field: "Charging_Stations",
+              type: "quantitative"
+            }
+          }
+        }
+      ],
+
+      view: {
+        stroke: "transparent"
       }
-    }
-  ],
+    };
 
-  resolve: { scale: { y: "independent" } }
-};
-
-
-
-  vegaEmbed("#evDualLineChart", dualSpec).catch(console.error);
-</script>
+    // Render bar chart in the second card
+    vegaEmbed("#cityBarChart", cityBarSpec, { actions: false }).catch(console.error);
+  </script>
 
 
 </body>
+
 </html>
