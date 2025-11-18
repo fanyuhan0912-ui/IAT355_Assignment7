@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <title>EV Charging Visualization – Visualizations</title>
@@ -60,7 +59,7 @@
 
     <div class="container" style="margin-top: 2.5rem;">
       <div class="viz-grid">
-
+        
         <!-- vis 1 -->
         <article class="viz-card">
           <header>
@@ -76,8 +75,9 @@
             <h2 class="viz-title">Charging stations by city</h2>
             <span class="viz-tag">Bar chart · Prototype</span>
           </header>
-          <!-- Vega-Lite will render the bar chart into this div -->
-          <div id="cityBarChart" class="viz-placeholder"></div>
+          <div class="viz-placeholder">
+            Bar chart placeholder – you can mount your D3 / Vega-Lite chart here.
+          </div>
         </article>
 
         <!-- vis 3 -->
@@ -86,8 +86,7 @@
             <h2 class="viz-title">Timeline of EV infrastructure growth</h2>
             <span class="viz-tag">Line chart · Prototype</span>
           </header>
-          <div id="evDualLineChart" style="margin: 30px auto;;"></div>
-
+          <div id="evDualLineChart" style="margin: 30px auto;"></div>
         </article>
       </div>
     </div>
@@ -102,21 +101,126 @@
   <!-- Data & specs -->
   <script src="city_density_data.js"></script>
 
-
   <script>
-    const dualSpec = {
+    const cityDensitySpec = {
       $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      width: "container",
+      height: 480,
+      autosize: { type: "fit", contains: "padding" },
+      config: {
+        background: "transparent",
+        view: { stroke: null },
+        legend: { labelColor: "#cbd5e1", titleColor: "#e2e8f0" },
+        axis: { labelColor: "#cbd5e1", titleColor: "#e2e8f0" }
+      },
 
-      width: 650,
-      height: 420,
-
-      data: {
-        url: "ev_data.csv",
-        format: { type: "csv" }
+      projection: {
+        type: "mercator",
+        center: [-96, 60],
+        scale: 450
       },
 
       layer: [
-        // EV Registrations (Left Axis)
+        {
+          // Canada outline from CDN
+          data: {
+            url: "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
+            format: { type: "topojson", feature: "countries" }
+          },
+          transform: [
+            { filter: "datum.properties.name === 'Canada'" }
+          ],
+          mark: {
+            type: "geoshape",
+            fill: "#ff4d4d",
+            stroke: "#ff1a1a",
+            strokeWidth: 1.2,
+            opacity: 0.5
+          }
+        },
+
+        {
+          data: { values: cityDensityData },
+          mark: { type: "circle", opacity: 0.85 },
+          encoding: {
+            longitude: { field: "lon", type: "quantitative" },
+            latitude: { field: "lat", type: "quantitative" },
+
+            // size controls bubble radius, legend turned off
+            size: {
+              field: "stationCount",
+              type: "quantitative",
+              scale: { range: [40, 1200] },
+              legend: null
+            },
+
+            // color legend with visually distinct categories
+            color: {
+              field: "stationCount",
+              type: "quantitative",
+              scale: {
+                domain: [0, 200, 400, 600, 800],
+                range: ["#4ade80", "#22c55e", "#eab308", "#f97316", "#ef4444"] // green → yellow → orange → red
+              },
+              legend: {
+                title: "Charging stations",
+                labelColor: "#cbd5e1",
+                titleColor: "#e2e8f0",
+                format: ".0f"
+              }
+            },
+
+            tooltip: [
+              { field: "City", type: "nominal" },
+              { field: "ProvName", title: "Province", type: "nominal" },
+              { field: "stationCount", title: "Charging stations", type: "quantitative" },
+              { field: "totalPorts", title: "Total ports", type: "quantitative" }
+            ]
+          }
+        },
+
+        {
+          data: {
+            values: [
+              { label: "Yukon", lon: -135, lat: 63.8, dx: 0, dy: 0 },
+              { label: "Northwest Territories", lon: -122, lat: 64.7, dx: 0, dy: 0 },
+              { label: "Nunavut", lon: -95, lat: 67.5, dx: 0, dy: 0 },
+              { label: "British Columbia", lon: -124.5, lat: 53, dx: 0, dy: 0 },
+              { label: "Alberta", lon: -114, lat: 54.5, dx: 0, dy: 0 },
+              { label: "Saskatchewan", lon: -105, lat: 54.5, dx: 0, dy: 0 },
+              { label: "Manitoba", lon: -97.5, lat: 54.8, dx: 0, dy: 0 },
+              { label: "Ontario", lon: -85, lat: 50.5, dx: 0, dy: 0 },
+              { label: "Quebec", lon: -71, lat: 52, dx: 0, dy: 0 },
+              { label: "New Brunswick", lon: -66, lat: 47.5, dx: -12, dy: -10 },
+              { label: "Nova Scotia", lon: -63.5, lat: 44.8, dx: 0, dy: 12 },
+              { label: "Prince Edward Island", lon: -62.7, lat: 46.7, dx: 14, dy: 0 },
+              { label: "Newfoundland and Labrador", lon: -58.7, lat: 53.5, dx: 0, dy: 0 }
+            ]
+          },
+          mark: {
+            type: "text",
+            fontSize: 11,
+            color: "#e8f0fa",
+            fontWeight: 600,
+            opacity: 0.9
+          },
+          encoding: {
+            longitude: { field: "lon", type: "quantitative" },
+            latitude: { field: "lat", type: "quantitative" },
+            text: { field: "label", type: "nominal" },
+            dx: { field: "dx", type: "quantitative" },
+            dy: { field: "dy", type: "quantitative" }
+          }
+        }
+      ]
+    };
+
+    const dualSpec = {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      width: 650,
+      height: 420,
+      data: { url: "ev_data.csv", format: { type: "csv" } },
+      layer: [
         {
           mark: { type: "line", point: true },
           encoding: {
@@ -124,7 +228,7 @@
               field: "Year",
               type: "ordinal",
               title: "Year",
-              axis: { labelAngle: 0 }   
+              axis: { labelAngle: 0 }
             },
             y: {
               field: "EV_Registrations",
@@ -138,8 +242,6 @@
             color: { value: "#e67e22" }
           }
         },
-
-        // Charging Stations (Right Axis)
         {
           mark: { type: "line", point: true, strokeDash: [4, 4] },
           encoding: {
@@ -162,123 +264,11 @@
           }
         }
       ],
-
       resolve: { scale: { y: "independent" } }
     };
 
-
-
     vegaEmbed("#evDualLineChart", dualSpec).catch(console.error);
-
-    // ============================
-    // NEW: Bar chart – Charging stations by city
-    // ============================
-    // Fake / prototype data: you can adjust the numbers later
-    const cityBarSpec = {
-      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
-      description: "Bar chart of public charging stations in BC using ev_data.csv.",
-      background: "transparent",
-      width: "container",
-      height: 260,
-
-      data: {
-        url: "ev_data.csv",
-        format: { type: "csv" }
-      },
-
-      mark: {
-        type: "bar",
-        cornerRadiusTopLeft: 10,
-        cornerRadiusTopRight: 10
-      },
-
-      encoding: {
-        x: {
-          field: "Year",
-          type: "ordinal",
-          title: "Year",
-          axis: {
-            labelAngle: 0,
-            labelColor: "#e5f4ff",
-            titleColor: "#9ca3af"
-          }
-        },
-        y: {
-          field: "Charging_Stations",
-          type: "quantitative",
-          title: "Number of Public Charging Stations",
-          axis: {
-            labelColor: "#e5f4ff",
-            titleColor: "#9ca3af",
-            gridColor: "rgba(148,163,184,0.25)",
-            tickColor: "rgba(148,163,184,0.4)"
-          }
-        },
-        color: {
-          field: "Year",
-          type: "nominal",
-          legend: null,
-          scale: {
-            range: [
-              "#22c55e",
-              "#16a34a",
-              "#22c55e",
-              "#4ade80",
-              "#86efac",
-              "#38bdf8",
-              "#0ea5e9",
-              "#6366f1",
-              "#a855f7",
-              "#f97316"
-            ]
-          }
-        },
-        tooltip: [
-          { field: "Year", type: "ordinal", title: "Year" },
-          {
-            field: "Charging_Stations",
-            type: "quantitative",
-            title: "Charging stations"
-          }
-        ]
-      },
-
-      layer: [
-        // bars themselves
-        {
-          mark: {
-            type: "bar",
-            cornerRadiusTopLeft: 10,
-            cornerRadiusTopRight: 10
-          }
-        },
-
-        // value labels
-        {
-          mark: {
-            type: "text",
-            dy: -6,
-            fontSize: 11,
-            fontWeight: "600",
-            color: "#e5f4ff"
-          },
-          encoding: {
-            text: {
-              field: "Charging_Stations",
-              type: "quantitative"
-            }
-          }
-        }
-      ],
-
-      view: {
-        stroke: "transparent"
-      }
-    };
-
-    // Render bar chart in the second card
-    vegaEmbed("#cityBarChart", cityBarSpec, { actions: false }).catch(console.error);
+    vegaEmbed("#cityDensityMap", cityDensitySpec, { renderer: "canvas", actions: false }).catch(console.error);
   </script>
 </body>
-
 </html>
