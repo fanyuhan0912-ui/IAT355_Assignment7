@@ -66,9 +66,7 @@
             <h2 class="viz-title">City-level charging station density</h2>
             <span class="viz-tag">Map · Prototype</span>
           </header>
-          <div class="viz-placeholder">
-            Map visualization placeholder (embed iframe / script here)
-          </div>
+          <div id="cityDensityMap" style="min-height: 480px;"></div>
         </article>
 
         <!-- vis 2 -->
@@ -88,7 +86,7 @@
             <h2 class="viz-title">Timeline of EV infrastructure growth</h2>
             <span class="viz-tag">Line chart · Prototype</span>
           </header>
-         <div id="evDualLineChart" style="margin: 30px auto;;"></div>
+         <div id="evDualLineChart" style="margin: 30px auto;"></div>
 
         </article>
       </div>
@@ -103,7 +101,55 @@
 
 
   
+  <script src="city_density_data.js"></script>
   <script>
+  const cityDensitySpec = {
+    $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+    width: "container",
+    height: 480,
+    autosize: { type: "fit", contains: "padding" },
+    config: {
+      background: "transparent",
+      view: { stroke: null },
+      legend: { labelColor: "#cbd5e1", titleColor: "#e2e8f0" },
+      axis: { labelColor: "#cbd5e1", titleColor: "#e2e8f0" }
+    },
+
+    projection: { type: "mercator", center: [-96, 58], scale: 520 },
+
+    layer: [
+      {
+        data: {
+          url: "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
+          format: { type: "topojson", feature: "countries" }
+        },
+        transform: [{ filter: "datum.id == 124" }], // 124 = Canada (ISO numeric)
+        mark: { type: "geoshape", fill: "#bccfe6", stroke: "#8ba7c4", strokeWidth: 1.2, opacity: 0.9 }
+      },
+      {
+        data: { values: cityDensityData },
+        mark: { type: "circle", color: "#1f7a8c", opacity: 0.75 },
+        encoding: {
+          longitude: { field: "lon", type: "quantitative" },
+          latitude: { field: "lat", type: "quantitative" },
+          size: {
+            field: "stationCount",
+            type: "quantitative",
+            title: "Charging stations",
+            scale: { range: [40, 1200] }
+          },
+          tooltip: [
+            { field: "City", type: "nominal" },
+            { field: "ProvName", title: "Province", type: "nominal" },
+            { field: "stationCount", title: "Charging stations", type: "quantitative" },
+            { field: "totalPorts", title: "Total ports", type: "quantitative" }
+          ]
+        }
+      }
+    ]
+  };
+
+
   const dualSpec = {
   $schema: "https://vega.github.io/schema/vega-lite/v5.json",
 
@@ -169,6 +215,7 @@
 
 
   vegaEmbed("#evDualLineChart", dualSpec).catch(console.error);
+  vegaEmbed("#cityDensityMap", cityDensitySpec, { renderer: "canvas", actions: false }).catch(console.error);
 </script>
 
 
