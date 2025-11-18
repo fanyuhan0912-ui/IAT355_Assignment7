@@ -67,9 +67,7 @@
             <h2 class="viz-title">City-level charging station density</h2>
             <span class="viz-tag">Map · Prototype</span>
           </header>
-          <div class="viz-placeholder">
-            Map visualization placeholder (embed iframe / script here)
-          </div>
+          <div id="cityDensityMap" style="min-height: 480px;"></div>
         </article>
 
         <!-- vis 2 -->
@@ -82,7 +80,7 @@
           <div id="cityBarChart" class="viz-placeholder"></div>
         </article>
 
-        <!-- vis 3 (HERE IS YOUR REAL CHART) -->
+        <!-- vis 3 -->
         <article class="viz-card">
           <header>
             <h2 class="viz-title">Timeline of EV infrastructure growth</h2>
@@ -101,6 +99,8 @@
     </div>
   </footer>
 
+  <!-- Data & specs -->
+  <script src="city_density_data.js"></script>
 
 
   <script>
@@ -280,7 +280,61 @@
     vegaEmbed("#cityBarChart", cityBarSpec, { actions: false }).catch(console.error);
   </script>
 
+    const dualSpec = {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      width: 650,
+      height: 420,
+      data: { url: "ev_data.csv", format: { type: "csv" } },
+      layer: [
+        {
+          mark: { type: "line", point: true },
+          encoding: {
+            x: {
+              field: "Year",
+              type: "ordinal",
+              title: "Year",
+              axis: { labelAngle: 0 }
+            },
+            y: {
+              field: "EV_Registrations",
+              type: "quantitative",
+              title: "EV Registrations",
+              axis: {
+                titleColor: "#e67e22",
+                labelColor: "#e67e22"
+              }
+            },
+            color: { value: "#e67e22" }
+          }
+        },
+        {
+          mark: { type: "line", point: true, strokeDash: [4, 4] },
+          encoding: {
+            x: {
+              field: "Year",
+              type: "ordinal",
+              axis: { labelAngle: 0 }
+            },
+            y: {
+              field: "Charging_Stations",
+              type: "quantitative",
+              axis: {
+                title: "Number of Public Charging Stations",
+                orient: "right",
+                titleColor: "#2980b9",
+                labelColor: "#2980b9"
+              }
+            },
+            color: { value: "#2980b9" }
+          }
+        }
+      ],
+      resolve: { scale: { y: "independent" } }
+    };
 
+    vegaEmbed("#evDualLineChart", dualSpec).catch(console.error);
+    vegaEmbed("#cityDensityMap", cityDensitySpec, { renderer: "canvas", actions: false }).catch(console.error);
+  </script>
 </body>
 
 </html>
