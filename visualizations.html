@@ -47,9 +47,7 @@
       </div>
 
       <div class="text-block">
-        <p>
-          Suggested reading order for users:
-        </p>
+        <p>Suggested reading order for users:</p>
         <p>
           1. Start with the map to see the spatial distribution of charging stations.<br />
           2. Move to the bar chart to compare cities in detail.<br />
@@ -64,7 +62,7 @@
         <!-- vis 1 -->
         <article class="viz-card">
           <header>
-            <h2 class="viz-title">City-level charging station density</h2>
+            <h2 class="viz-title">Provincial charging station coverage</h2>
             <span class="viz-tag">Map · Prototype</span>
           </header>
           <div id="cityDensityMap" style="min-height: 480px;"></div>
@@ -73,7 +71,7 @@
         <!-- vis 2 -->
         <article class="viz-card">
           <header>
-            <h2 class="viz-title">Charging stations by city</h2>
+            <h2 class="viz-title">Charging stations in BC over time</h2>
             <span class="viz-tag">Bar chart · Prototype</span>
           </header>
           <div id="cityBarChart" class="viz-placeholder"></div>
@@ -97,126 +95,116 @@
     </div>
   </footer>
 
-  <!-- Data & specs -->
-  <script src="city_density_data.js"></script>
 
   <script>
-    const cityDensitySpec = {
-      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
-      width: "container",
-      height: 480,
-      autosize: { type: "fit", contains: "padding" },
-      config: {
-        background: "transparent",
-        view: { stroke: null },
-        legend: { labelColor: "#cbd5e1", titleColor: "#e2e8f0" },
-        axis: { labelColor: "#cbd5e1", titleColor: "#e2e8f0" }
+    // --- 1. Provincial choropleth map (使用 province_charging.csv) ---
+   const cityDensitySpec = {
+  $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+  width: "container",
+  height: 480,
+  autosize: { type: "fit", contains: "padding" },
+
+  config: {
+    background: "transparent",
+    view: { stroke: null },
+    legend: { labelColor: "#cbd5e1", titleColor: "#e2e8f0" },
+    axis: { labelColor: "#cbd5e1", titleColor: "#e2e8f0" }
+  },
+
+  projection: {
+    type: "mercator",
+    center: [-96, 60],
+    scale: 450
+  },
+
+  layer: [
+    {
+      data: {
+        url: "canada_outline.geojson",
+        format: {
+          type: "json",
+          property: "features"   // ⭐ 最关键
+        }
       },
 
-      projection: {
-        type: "mercator",
-        center: [-96, 60],
-        scale: 450
-      },
-
-      layer: [
+      transform: [
         {
-          // Canada outline from CDN
-          data: {
-            url: "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
-            format: { type: "topojson", feature: "countries" }
-          },
-          transform: [
-            { filter: "datum.properties.name === 'Canada'" }
-          ],
-          mark: {
-            type: "geoshape",
-            fill: "#ff4d4d",
-            stroke: "#ff1a1a",
-            strokeWidth: 1.2,
-            opacity: 0.5
-          }
-        },
-
-        {
-          data: { values: cityDensityData },
-          mark: { type: "circle", opacity: 0.85 },
-          encoding: {
-            longitude: { field: "lon", type: "quantitative" },
-            latitude: { field: "lat", type: "quantitative" },
-
-            // size controls bubble radius, legend turned off
-            size: {
-              field: "stationCount",
-              type: "quantitative",
-              scale: { range: [40, 1200] },
-              legend: null
-            },
-
-            // color legend with visually distinct categories
-            color: {
-              field: "stationCount",
-              type: "quantitative",
-              scale: {
-                domain: [0, 200, 400, 600, 800],
-                range: ["#4ade80", "#22c55e", "#eab308", "#f97316", "#ef4444"] // green → yellow → orange → red
-              },
-              legend: {
-                title: "Charging stations",
-                labelColor: "#cbd5e1",
-                titleColor: "#e2e8f0",
-                format: ".0f"
-              }
-            },
-
-            tooltip: [
-              { field: "City", type: "nominal" },
-              { field: "ProvName", title: "Province", type: "nominal" },
-              { field: "stationCount", title: "Charging stations", type: "quantitative" },
-              { field: "totalPorts", title: "Total ports", type: "quantitative" }
-            ]
-          }
-        },
-
-        {
-          data: {
-            values: [
-              { label: "Yukon", lon: -135, lat: 63.8, dx: 0, dy: 0 },
-              { label: "Northwest Territories", lon: -122, lat: 64.7, dx: 0, dy: 0 },
-              { label: "Nunavut", lon: -95, lat: 67.5, dx: 0, dy: 0 },
-              { label: "British Columbia", lon: -124.5, lat: 53, dx: 0, dy: 0 },
-              { label: "Alberta", lon: -114, lat: 54.5, dx: 0, dy: 0 },
-              { label: "Saskatchewan", lon: -105, lat: 54.5, dx: 0, dy: 0 },
-              { label: "Manitoba", lon: -97.5, lat: 54.8, dx: 0, dy: 0 },
-              { label: "Ontario", lon: -85, lat: 50.5, dx: 0, dy: 0 },
-              { label: "Quebec", lon: -71, lat: 52, dx: 0, dy: 0 },
-              { label: "New Brunswick", lon: -66, lat: 47.5, dx: -12, dy: -10 },
-              { label: "Nova Scotia", lon: -63.5, lat: 44.8, dx: 0, dy: 12 },
-              { label: "Prince Edward Island", lon: -62.7, lat: 46.7, dx: 14, dy: 0 },
-              { label: "Newfoundland and Labrador", lon: -58.7, lat: 53.5, dx: 0, dy: 0 }
-            ]
-          },
-          mark: {
-            type: "text",
-            fontSize: 11,
-            color: "#e8f0fa",
-            fontWeight: 600,
-            opacity: 0.9
-          },
-          encoding: {
-            longitude: { field: "lon", type: "quantitative" },
-            latitude: { field: "lat", type: "quantitative" },
-            text: { field: "label", type: "nominal" },
-            dx: { field: "dx", type: "quantitative" },
-            dy: { field: "dy", type: "quantitative" }
+          lookup: "properties.PRENAME",   // ⭐ GeoJSON 的 province 名称
+          from: {
+            data: { url: "province_charging.csv" },
+            key: "Province",
+            fields: ["Charging_Stations"]
           }
         }
-      ]
-    };
+      ],
 
-    // ============================
-    // Bar chart – Charging stations in BC over time (REAL CSV DATA)
-    // ============================
+      mark: {
+        type: "geoshape",
+        stroke: "#6b7280",
+        strokeWidth: 0.8
+      },
+
+      encoding: {
+        color: {
+          field: "Charging_Stations",
+          type: "quantitative",
+          title: "Charging stations",
+          scale: { range: ["#d9f99d", "#15803d"] }
+        },
+        tooltip: [
+          { field: "properties.PRENAME", title: "Province" },
+          { field: "Charging_Stations", title: "Charging stations" }
+        ]
+      }
+    },
+
+    {
+      data: {
+        values: [
+          { province: "Yukon", lon: -135, lat: 63.8 },
+          { province: "Northwest Territories", lon: -122, lat: 64.7 },
+          { province: "Nunavut", lon: -95, lat: 67.5 },
+          { province: "British Columbia", lon: -124.5, lat: 53 },
+          { province: "Alberta", lon: -114, lat: 54.5 },
+          { province: "Saskatchewan", lon: -105, lat: 54.5 },
+          { province: "Manitoba", lon: -97.5, lat: 54.8 },
+          { province: "Ontario", lon: -85, lat: 50.5 },
+          { province: "Quebec", lon: -71, lat: 52 },
+          { province: "New Brunswick", lon: -66, lat: 47.5 },
+          { province: "Nova Scotia", lon: -63.5, lat: 44.8 },
+          { province: "Prince Edward Island", lon: -62.7, lat: 46.7 },
+          { province: "Newfoundland and Labrador", lon: -58.7, lat: 53.5 }
+        ]
+      },
+
+      transform: [
+        {
+          lookup: "province",
+          from: {
+            data: { url: "province_charging.csv" },
+            key: "Province",
+            fields: ["Charging_Stations"]
+          }
+        }
+      ],
+
+      mark: {
+        type: "text",
+        fontSize: 12,
+        color: "#111827",
+        fontWeight: 700
+      },
+
+      encoding: {
+        longitude: { field: "lon" },
+        latitude: { field: "lat" },
+        text: { field: "Charging_Stations", format: ".0f" }
+      }
+    }
+  ]
+};
+
+    // --- 2. Bar chart：BC 充电桩随时间变化 ---
     const cityBarSpec = {
       $schema: "https://vega.github.io/schema/vega-lite/v5.json",
       description: "Bar chart of public charging stations in BC using ev_data.csv.",
@@ -287,7 +275,6 @@
       },
 
       layer: [
-        // bars themselves
         {
           mark: {
             type: "bar",
@@ -295,8 +282,6 @@
             cornerRadiusTopRight: 10
           }
         },
-
-        // value labels
         {
           mark: {
             type: "text",
@@ -319,9 +304,7 @@
       }
     };
 
-    // Render bar chart in the second card
-    vegaEmbed("#cityBarChart", cityBarSpec, { actions: false }).catch(console.error);
-
+    // --- 3. Dual line chart：EV 注册量 & 充电桩 ---
     const dualSpec = {
       $schema: "https://vega.github.io/schema/vega-lite/v5.json",
       width: 650,
@@ -374,8 +357,10 @@
       resolve: { scale: { y: "independent" } }
     };
 
-    vegaEmbed("#evDualLineChart", dualSpec).catch(console.error);
+    // --- 4. Render all three charts ---
     vegaEmbed("#cityDensityMap", cityDensitySpec, { renderer: "canvas", actions: false }).catch(console.error);
+    vegaEmbed("#cityBarChart", cityBarSpec, { actions: false }).catch(console.error);
+    vegaEmbed("#evDualLineChart", dualSpec, { actions: false }).catch(console.error);
   </script>
 </body>
 
