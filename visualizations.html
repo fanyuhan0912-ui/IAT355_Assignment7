@@ -63,9 +63,10 @@
         <article class="viz-card">
           <header>
             <h2 class="viz-title">Provincial charging station coverage</h2>
-            <span class="viz-tag">Map · Prototype</span>
+            <span class="viz-tag" style="margin-bottom: 1rem">Map · Prototype</span>
           </header>
           <div id="cityDensityMap" style="min-height: 480px;"></div>
+          <p>This map shows the number of EV charging stations across Canadian provinces and territories. British Columbia and Quebec have the highest coverage, while central provinces show moderate availability. Northern regions have very limited charging infrastructure due to low population density and geographic challenges.</p>
         </article>
 
         <!-- vis 2 -->
@@ -75,6 +76,7 @@
             <span class="viz-tag">Bar chart · Prototype</span>
           </header>
           <div id="cityBarChart" class="viz-placeholder"></div>
+          <p>This bar chart shows the growth of public EV charging stations in British Columbia from 2015 to 2024. The number of stations has increased steadily each year, with particularly rapid expansion after 2019, rising from 2,100 stations to 5,300 in 2024. This trend highlights BC’s strong investment and leadership in EV infrastructure development.</p>
         </article>
 
         <!-- vis 3 -->
@@ -84,6 +86,7 @@
             <span class="viz-tag">Line chart · Prototype</span>
           </header>
           <div id="evDualLineChart" style="margin: 30px auto;"></div>
+          <p>This line chart compares the growth of EV registrations and public charging stations over time. Both metrics rise steadily from 2015 to 2024, with EV adoption accelerating sharply after 2019. Charging infrastructure expands in parallel to support this demand, highlighting a strong correlation between EV uptake and infrastructure development.</p>
         </article>
       </div>
     </div>
@@ -298,18 +301,8 @@
           type: "nominal",
           legend: null,
           scale: {
-            range: [
-              "#22c55e",
-              "#16a34a",
-              "#22c55e",
-              "#4ade80",
-              "#86efac",
-              "#38bdf8",
-              "#0ea5e9",
-              "#6366f1",
-              "#a855f7",
-              "#f97316"
-            ]
+            "range": ["#e8f7ec","#d4f0dd","#b9e6c8","#9eddb3","#84d49e","#6acb89","#4fbf73","#33b35d","#1fa84f","#16a34a"]
+
           }
         },
         tooltip: [

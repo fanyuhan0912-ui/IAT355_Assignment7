@@ -55,6 +55,10 @@
           <div class="hero-visual-frame">
             <div id="heroDualChart"></div>
           </div>
+           <div class="container" style="text-align: center; margin-top: 1rem;">
+              <img src="CanadaMap.jpg" alt="Map of Canada" style="width: 25rem; border-radius: 12px;">
+            </div>
+
 
           <p class="hero-caption">
             Prototype view of EV registrations vs public charging stations in BC (2015–2024).
@@ -91,81 +95,7 @@
     </div>
   </footer>
 
- 
-  <script>
-    const heroSpec = {
-      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
-      description:
-        "EV registrations vs public charging stations in BC (dual-axis line chart, hero version)",
 
 
-      width: 320,
-      height: 220,
-
-      background: "transparent",
-      view: { stroke: null },  
-
-      data: {
-        url: "ev_data.csv",     
-        format: { type: "csv" }
-      },
-
-      layer: [
-    
-        {
-          mark: { type: "line", point: true },
-          encoding: {
-            x: {
-              field: "Year",
-              type: "ordinal",
-              title: "Year",
-              axis: {
-                labelAngle: 0,
-                labelColor: "#ffffff",   
-                titleColor: "#e5e7eb"
-              }
-            },
-            y: {
-              field: "EV_Registrations",
-              type: "quantitative",
-              title: "EV Registrations",
-              axis: {
-                titleColor: "#22c55e",
-                labelColor: "#22c55e"
-              }
-            },
-            color: { value: "#22c55e" }
-          }
-        },
-
-     
-        {
-          mark: { type: "line", point: true, strokeDash: [4, 4] },
-          encoding: {
-            x: {
-              field: "Year",
-              type: "ordinal"
-       
-            },
-            y: {
-              field: "Charging_Stations",
-              type: "quantitative",
-              axis: {
-                title: "Number of Public Charging Stations",
-                orient: "right",
-                titleColor: "#38bdf8",
-                labelColor: "#38bdf8"
-              }
-            },
-            color: { value: "#38bdf8" }
-          }
-        }
-      ],
-
-      resolve: { scale: { y: "independent" } }
-    };
-
-    vegaEmbed("#heroDualChart", heroSpec, { actions: false }).catch(console.error);
-  </script>
 </body>
 </html>

@@ -208,7 +208,7 @@ nav a.active::after {
 /* hero visualization card */
 .hero-visual {
   position: relative;
-  padding: 2.2rem;
+  padding: 2.5rem;
   border-radius: 24px;
   background: radial-gradient(circle at top, rgba(15, 118, 110, 0.35), rgba(15, 23, 42, 0.95));
   border: 1px solid rgba(45, 212, 191, 0.35);
@@ -220,11 +220,11 @@ nav a.active::after {
 
 
 .hero-visual-frame {
-  max-width: 420px;
-  margin: 16px auto 0 auto;
-  padding: 16px 32px 12px 24px;  
+  width: 100%;
+  margin: 0;
+  display: flex;              
+  justify-content: center;    
 }
-
 
 #heroDualChart {
   width: 100%;
