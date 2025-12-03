@@ -38,10 +38,10 @@
         </div>
         <div class="text-block">
           <p>
-            This page hosts all main visualizations. For Milestone 2, each chart is
-            implemented as a functional prototype and embedded directly into the
-            layout below. Styling, annotation, and richer interactivity will be
-            improved in later stages.
+            This page hosts the core visualizations for our final project. Each chart is fully implemented and embedded
+            into the layout below, with explanatory text and basic interaction to help users interpret the data. Together,
+            these views connect spatial patterns, long-term trends, and infrastructure growth to show how public charging
+            supports electric vehicle adoption in Canada.
           </p>
         </div>
       </div>
@@ -50,8 +50,8 @@
         <p>Suggested reading order for users:</p>
         <p>
           1. Start with the map to see the spatial distribution of charging stations.<br />
-          2. Move to the bar chart to compare cities in detail.<br />
-          3. Finish with the timeline to understand how access has changed over time.
+          2. Move to the bar chart to compare growth in British Columbia over time.<br />
+          3. Finish with the timeline to understand how EV adoption and infrastructure expansion relate.
         </p>
       </div>
     </div>
@@ -66,7 +66,14 @@
             <span class="viz-tag" style="margin-bottom: 1rem">Map · Prototype</span>
           </header>
           <div id="cityDensityMap" style="min-height: 480px;"></div>
-          <p>This map shows the number of EV charging stations across Canadian provinces and territories. British Columbia and Quebec have the highest coverage, while central provinces show moderate availability. Northern regions have very limited charging infrastructure due to low population density and geographic challenges.</p>
+          <p>
+            This map highlights how unevenly Canada’s public charging infrastructure is distributed. Provinces with strong
+            EV incentive programs—especially British Columbia and Quebec—show significantly higher station densities than
+            central and prairie provinces, which still have only moderate coverage. The northern territories remain sparsely
+            served due to low population density, long travel distances, and geographic challenges. The color gradient and
+            numeric labels make it easy to compare regions at a glance and see how provincial policy and investment
+            decisions translate into real charging infrastructure on the ground.
+          </p>
         </article>
 
         <!-- vis 2 -->
@@ -76,7 +83,14 @@
             <span class="viz-tag">Bar chart · Prototype</span>
           </header>
           <div id="cityBarChart" class="viz-placeholder"></div>
-          <p>This bar chart shows the growth of public EV charging stations in British Columbia from 2015 to 2024. The number of stations has increased steadily each year, with particularly rapid expansion after 2019, rising from 2,100 stations to 5,300 in 2024. This trend highlights BC’s strong investment and leadership in EV infrastructure development.</p>
+          <p>
+            This bar chart tracks the growth of public EV charging stations in British Columbia from 2015 to 2024. The
+            number of stations increases every year, but growth clearly accelerates after 2019, when counts jump from
+            around 2,100 stations to more than 5,300 by 2024. That steep climb aligns with new provincial incentives,
+            zero-emission vehicle mandates, and larger infrastructure programs. Together, the pattern emphasizes how policy
+            changes and rising consumer demand have pushed BC into a leadership role for EV charging infrastructure within
+            Canada.
+          </p>
         </article>
 
         <!-- vis 3 -->
@@ -86,7 +100,14 @@
             <span class="viz-tag">Line chart · Prototype</span>
           </header>
           <div id="evDualLineChart" style="margin: 30px auto;"></div>
-          <p>This line chart compares the growth of EV registrations and public charging stations over time. Both metrics rise steadily from 2015 to 2024, with EV adoption accelerating sharply after 2019. Charging infrastructure expands in parallel to support this demand, highlighting a strong correlation between EV uptake and infrastructure development.</p>
+          <p>
+            This line chart compares two trends over time: EV registrations (solid line) and the number of public charging
+            stations (dashed line). From 2015 to 2019, both curves rise gradually, but after 2020 EV registrations grow
+            much more steeply, reflecting falling battery costs, stronger climate policies, and increasing consumer
+            confidence in EVs. Charging infrastructure expands in parallel, yet a widening gap appears after 2021 as
+            adoption begins to outpace new stations. That divergence suggests that continued investment in charging
+            infrastructure will be critical to support the next phase of EV growth.
+          </p>
         </article>
       </div>
     </div>
