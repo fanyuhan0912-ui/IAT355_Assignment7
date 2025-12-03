@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>EV Charging Visualization – About</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Vega libraries (kept for consistency, even if not used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <div class="logo">
+        <div class="logo-icon"></div>
+        <span class="logo-text">EV Data Lab</span>
+      </div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="visualizations.html">Visualizations</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="section">
+    <div class="container">
+      <!-- Intro -->
+      <div class="section-header">
+        <p class="section-kicker">PROJECT OVERVIEW</p>
+        <h1 class="section-title">
+          About <span class="accent">CRE Group’s</span> EV visualization project
+        </h1>
+      </div>
+
+      <div class="text-block">
+        <p>
+          This project was created for IAT 355 – Data Visualization and explores how investments in electric vehicle (EV)
+          infrastructure can accelerate the transition away from gasoline cars in Canada. Using a combination of spatial,
+          temporal, and comparative visualizations, our website highlights the relationship between public charging
+          stations, government incentives, and the rising adoption of EVs.
+        </p>
+      </div>
+
+      <!-- Topic & Subject -->
+      <section class="section">
+        <div class="section-header">
+          <p class="section-kicker">CONTEXT</p>
+          <h2 class="section-title">Topic and subject</h2>
+        </div>
+
+        <div class="text-block">
+          <p>
+            Gas-powered vehicles are a major source of air pollution and carbon emissions. As Canadian cities look for
+            cleaner transportation options, EVs have become an important alternative. However, EV adoption depends heavily
+            on whether drivers can reliably charge their vehicles where they live, work, and travel.
+          </p>
+          <p>
+            Our project focuses on the growth of EVs in Canada from 2015 onward and connects that growth to the expansion
+            of public charging infrastructure. We look at differences across provinces and major urban regions, with a
+            particular focus on British Columbia and cities such as Vancouver, Toronto, and Montreal. By comparing EV
+            registrations to the availability of charging stations, we aim to show where infrastructure is keeping up with
+            demand—and where it is falling behind.
+          </p>
+        </div>
+      </section>
+
+      <!-- Goals & Tasks -->
+      <section class="section">
+        <div class="section-header">
+          <p class="section-kicker">OBJECTIVES</p>
+          <h2 class="section-title">Project goals and user tasks</h2>
+        </div>
+
+        <div class="text-block">
+          <p>
+            The main goal of this project is to make the impact of EV-related policy and infrastructure spending visible
+            and understandable. By turning raw data into clear visual stories, we want to show how government rebates,
+            charging networks, and local policies contribute to cleaner, more sustainable cities.
+          </p>
+          <p>On this site, users can:</p>
+          <ul>
+            <li>Compare EV adoption and charging coverage across Canadian provinces and regions.</li>
+            <li>Explore how the number of public charging stations has grown over time, especially in BC.</li>
+            <li>See how EV registrations and charging infrastructure rise together on a shared timeline.</li>
+            <li>Identify where infrastructure growth is keeping pace with demand—and where additional investment may be needed.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Data & Methods -->
+      <section class="section">
+        <div class="section-header">
+          <p class="section-kicker">DATA & METHODS</p>
+          <h2 class="section-title">Data sources and visualization design</h2>
+        </div>
+
+        <div class="text-block">
+          <p>
+            Our visualizations are based on Canadian EV and infrastructure data compiled from government open-data
+            portals and policy reports. Key sources include:
+          </p>
+          <ul>
+            <li>
+              <strong>Statistics Canada</strong> – vehicle registrations and EV counts by province, along with trends in
+              transportation-related CO₂ emissions.
+            </li>
+            <li>
+              <strong>Natural Resources Canada (NRCan)</strong> – public charging station locations and counts across
+              Canada.
+            </li>
+            <li>
+              <strong>Transport Canada – Zero-Emission Vehicle (ZEV) Program</strong> – information on purchase incentives
+              and national EV policy performance.
+            </li>
+          </ul>
+          <p>
+            We clean and transform these datasets into a simpler structure with yearly values for EV registrations,
+            charging station counts, and related policy indicators. The current prototype focuses on three core views:
+          </p>
+          <ul>
+            <li><strong>A choropleth map</strong> showing provincial charging station coverage across Canada.</li>
+            <li><strong>A bar chart</strong> tracking the growth of public charging stations in British Columbia over time.</li>
+            <li><strong>A dual-line timeline</strong> comparing EV registrations and charging infrastructure on the same axis.</li>
+          </ul>
+          <p>
+            All charts are implemented using <strong>Vega-Lite</strong> and embedded into a custom-designed website.
+            Throughout the design process, we emphasized clear legends, readable color scales, and explanatory text so
+            that non-expert audiences can interpret the visualizations without needing to read the raw data.
+          </p>
+        </div>
+      </section>
+
+      <!-- Audience -->
+      <section class="section">
+        <div class="section-header">
+          <p class="section-kicker">AUDIENCE</p>
+          <h2 class="section-title">Who this project is for</h2>
+        </div>
+
+        <div class="text-block">
+          <p>
+            This project is designed for multiple audiences who care about sustainable transportation:
+          </p>
+          <ul>
+            <li>
+              <strong>Government policymakers</strong> who need visual, data-driven evidence to plan future EV
+              infrastructure and incentive programs.
+            </li>
+            <li>
+              <strong>Environmental researchers and students</strong> who are studying the connection between policy,
+              technology adoption, and emissions.
+            </li>
+            <li>
+              <strong>Members of the public and potential EV owners</strong> who want to understand how infrastructure
+              investment affects the practicality and accessibility of owning an electric vehicle.
+            </li>
+          </ul>
+          <p>
+            By making complex policy and environmental data more visual and approachable, our project aims to support
+            more informed discussions about how Canada can continue transitioning away from gasoline cars.
+          </p>
+        </div>
+      </section>
+
+      <!-- Team -->
+      <section class="section">
+        <div class="section-header">
+          <p class="section-kicker">TEAM</p>
+          <h2 class="section-title">The CRE group</h2>
+        </div>
+
+        <div class="text-block">
+          <p>
+            This project was created by <strong>CRE</strong>, a three-person team in IAT 355:
+          </p>
+          <ul>
+            <li><strong>Carolyn Fan</strong> – interaction design, layout, and copywriting.</li>
+            <li><strong>Rawitphoom Kiatthitinan</strong> – data processing, map design, and visual styling.</li>
+            <li><strong>Ethan Lum</strong> – chart implementation, EV growth analysis, and integration.</li>
+          </ul>
+          <p>
+            Together, we combined visual design, coding, and data analysis to build a coherent story about EV adoption in
+            Canada and to highlight the importance of continued investment in charging infrastructure.
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      Final Project – IAT 355 · CRE Group
+    </div>
+  </footer>
+</body>
+
+</html>
