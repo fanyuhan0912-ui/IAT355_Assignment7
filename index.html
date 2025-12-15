@@ -73,20 +73,109 @@
         <div class="section-header">
           <p class="section-kicker">OVERVIEW</p>
           <h2 class="section-title">
-            What you can explore on this <span class="accent">website</span>
-          </h2>
+            WHY WE CHOSE OUR <span class="accent">TOPIC</span></h2>
         </div>
         <div class="text-block">
           <p>
-            The website is structured around a small set of focused visualizations:
-            a map of charging station density, a bar chart comparing major cities, and
-            a simple timeline of EV growth. In Milestone 2, these visualizations are
-            working prototypes; styling and advanced interaction will be refined in
-            later milestones.
+            We chose this topic to analyze the critical relationship between infrastructure and adoption. Our goal is to demonstrate to policymakers and the public that investment in infrastructure is not just helpful, but essential for the transition to green transportation.
           </p>
+          <p>We wanted to visualize the concept of "Range Anxiety", the fear of running out of power, and pinpoint exactly where gaps in Canada's charging network are stalling progress.
+</p>
         </div>
       </div>
     </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            THE NARRATIVE ARC</h2>
+
+        </div>
+        <div class="text-block">
+          <p>
+          Through our analysis, we narrate how early infrastructure investments act as a catalyst. The data reveals a clear threshold: in provinces like British Columbia, EV registrations only began to spike exponentially after the charging network reached a critical density around 2018-2019.
+
+          <p>This narrative moves from the national overview down to provincial success stories, proving that infrastructure must come first.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            VISUALIZATION <span class="accent">GOALS</span></h2>
+
+        </div>
+        <div class="text-block">
+          <h3>Geographic Density Map</h3>
+          <h4>Goal: To visualize "Range Anxiety" in a tangible way.</h4>
+          <p>
+          By plotting every station, we highlight the stark disparity between high-density urban clusters (Vancouver, Montreal) and the vast, underserved voids in the Prairies and Northern Canada, validating the barriers rural Canadians face.</p>
+          <h3>Comparative Analysis</h3>
+          <h4>Goal: To contextualize leadership and trends.</h4>
+          <p>We use Bar and Time-Series charts to identify provincial leaders like BC and Quebec. This goes beyond simple counts to show how government incentives and infrastructure density create successful adoption models.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="accent">KEY</span> INSIGHTS</h2>
+
+        </div>
+        <div class="text-block">
+          <h3>The Loop</h3>
+          <p>
+        A strong positive correlation exists. Infrastructure is a prerequisite; adoption spikes only after stations cross a specific baseline threshold.
+</p>
+          <h3>Uneven Distribution
+</h3>
+        
+          <p>A tale of two Canadas: Dense networks in urban centers vs. significant gaps in rural regions, visualizing the root of "range anxiety."
+</p>
+<h3>Provincial Leaders
+</h3>
+<p>BC and Quebec are clear outliers. Their combination of rebates and high station density has created the most effective adoption models.
+</p>
+        </div>
+      </div>
+    </section>
+
+        <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+           <span class="accent">CHALLENGE:</span> DATA & SCALE</h2>
+
+        </div>
+        <div class="text-block">
+          <h3>The Challenge
+</h3>
+          
+          <p>
+          Dual-Axis Scaling: Comparing 100,000+ EVs against only 5,000 charging stations on a single chart made station growth look flat and invisible.
+</p>
+<p>Data Granularity: Integrating datasets with mismatched granularity—some city-level, others provincial.
+</p>
+          <h3>The Solution
+</h3>
+          
+          <p>Independent Axes: We implemented a dual-axis chart in Vega-Lite with independent Y-scales, color-coding them (Orange for EVs, Blue for Stations) for clarity.
+</p>
+<p>Strategic Aggregation: We aggregated city data to the provincial level for summary charts while keeping raw data for the high-fidelity map.
+</p>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
   </main>
 
   <footer>
